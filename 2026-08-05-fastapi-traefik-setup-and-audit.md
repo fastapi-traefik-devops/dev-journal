@@ -259,6 +259,19 @@ docker compose run --rm backend alembic upgrade head
 docker compose config
 ```
 
+### Options Used Above
+
+| Short | Long | Description |
+|---|---|---|
+| `-d` | `--detach` | Run containers in the background (don't block the terminal) |
+| `-f` | `--follow` | Follow log output as it grows (`logs` command) |
+| `-v` | `--volumes` | Also remove named volumes (`down` command — deletes data) |
+| —    | `--rm`     | Remove the container automatically after it exits (`run` command) |
+| —    | `--rmi`    | Also remove images used by services (`down` command) |
+| —    | `--build`  | Build images before starting containers (`up` command) |
+| —    | `--no-cache` | Build images without using the layer cache (full rebuild) |
+| —    | `--pull`   | Always pull the latest images before starting (`up` command) |
+
 ## Reference Information
 
 ### Dockerfile vs Docker Compose
