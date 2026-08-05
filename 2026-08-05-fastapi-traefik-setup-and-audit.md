@@ -152,6 +152,113 @@ frontend and Adminer start independently
 
 The file does **not start Traefik itself**. It assumes an existing Traefik instance, external `traefik-public` network, and `https-redirect` middleware.
 
+## Docker Compose Commands Cheatsheet
+
+A practical workflow for the most common developer/devops tasks.
+
+### Build
+
+```sh
+# Build all images (first time or after changing Dockerfiles)
+docker compose build
+
+# Build without using the cache (full rebuild from scratch)
+docker compose build --no-cache
+
+# Build a single service
+docker compose build backend
+```
+
+### Run / Start
+
+```sh
+# Build (if needed) and start all containers in the background
+docker compose up -d
+
+# Start existing containers without rebuilding
+docker compose start
+
+# Run in the foreground (logs stream to the terminal)
+docker compose up
+
+# Start only one service
+docker compose up -d db
+```
+
+### Check Status
+
+```sh
+# List running containers
+docker compose ps
+
+# Show logs of all services (follow mode)
+docker compose logs -f
+
+# Show logs of one service
+docker compose logs -f backend
+
+# Show resource usage
+docker stats
+```
+
+### Stop / Destroy
+
+```sh
+# Stop all containers (keep them, can be restarted)
+docker compose stop
+
+# Stop and remove containers, networks, and volumes created by up
+docker compose down
+
+# Also remove named volumes (WARNING: deletes database data)
+docker compose down -v
+
+# Also remove images used by services
+docker compose down --rmi all
+```
+
+### Rebuild / Update
+
+```sh
+# Pull latest images, rebuild, and restart changed containers
+docker compose up -d --build
+
+# Rebuild a single service and restart it
+docker compose up -d --build backend
+
+# Pull new versions of images without recreating containers
+docker compose pull
+```
+
+### Common Workflow Combinations
+
+```sh
+# Full clean rebuild (after changing Dockerfiles or dependencies)
+docker compose down
+docker compose build --no-cache
+docker compose up -d
+
+# Quick restart after code changes (if code is mounted as a volume)
+docker compose restart backend
+
+# Update a running stack to the latest images
+docker compose pull
+docker compose up -d
+```
+
+### Useful Extras
+
+```sh
+# Run a one-off command inside a running service container
+docker compose exec backend bash
+
+# Run a one-off command in a new container (e.g. migrations)
+docker compose run --rm backend alembic upgrade head
+
+# Check the effective merged configuration
+docker compose config
+```
+
 ## Reference Information
 
 ### Dockerfile vs Docker Compose
